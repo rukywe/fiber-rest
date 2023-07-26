@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"errors"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/rukywe/fiber-rest/database"
 	"github.com/rukywe/fiber-rest/models"
@@ -42,4 +44,34 @@ func GetProducts(c *fiber.Ctx) error {
 	}
 
 		 return c.Status(200).JSON(responseProducts)
+}
+
+
+func findProduct(id int, product *models.Product)error{
+
+	database.Database.Db.Find(&product, "id = ?", id)
+
+	if product.ID == 0 {
+		return errors.New("user not found")
+	}
+
+	return nil
+}
+
+func GetProduct(c *fiber.Ctx) error {
+	id , err := c.ParamsInt("id")
+
+	var product models.Product
+
+	if err != nil {
+		return c.Status(400).JSON("Please ensure ID is an Integer")
+	}
+
+	if err:= findProduct(id, &product); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	responseProduct := CreateResponseProduct(product)
+
+	return c.Status(200).JSON(responseProduct)
 }
