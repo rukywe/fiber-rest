@@ -75,3 +75,40 @@ func GetProduct(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(responseProduct)
 }
+
+
+func UpdateProduct(c *fiber.Ctx) error {
+	id , err := c.ParamsInt("id")
+
+	var product models.Product
+
+	if err != nil {
+		return c.Status(400).JSON("Please ensure ID is an Integer")
+	}
+
+	if err:= findProduct(id, &product); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	type UpdateProduct struct {
+		Name string `json:"name"`
+		SerialNumber string `json:"serial_number"`
+	}
+
+	var updateData UpdateProduct
+
+	if err := c.BodyParser(&updateData); err != nil{
+		return c.Status(500).JSON(err.Error())
+	}
+
+	product.Name = updateData.Name
+	product.SerialNumber = updateData.SerialNumber
+
+	database.Database.Db.Save(&product)
+
+	responseProduct := CreateResponseProduct(product)
+	return c.Status(200).JSON(responseProduct)
+
+}
+
+
