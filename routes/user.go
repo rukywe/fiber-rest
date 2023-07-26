@@ -33,7 +33,7 @@ func CreateUser(c *fiber.Ctx) error {
 	database.Database.Db.Create(&user)
 	responseUser := CreateResponseUser(user)
 
-	return c.Status(200).JSON(responseUser)
+	return c.Status(201).JSON(responseUser)
 }
 
 

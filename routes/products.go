@@ -29,7 +29,7 @@ func CreateProduct(c *fiber.Ctx) error{
 	database.Database.Db.Create(&product)
 	responseProduct := CreateResponseProduct(product)
 
-	return c.Status(200).JSON(responseProduct)
+	return c.Status(201).JSON(responseProduct)
 }
 
 func GetProducts(c *fiber.Ctx) error {
