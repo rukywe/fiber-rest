@@ -52,7 +52,7 @@ func findProduct(id int, product *models.Product)error{
 	database.Database.Db.Find(&product, "id = ?", id)
 
 	if product.ID == 0 {
-		return errors.New("user not found")
+		return errors.New("Product not found")
 	}
 
 	return nil
