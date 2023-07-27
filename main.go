@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/rukywe/fiber-rest/controllers"
 	"github.com/rukywe/fiber-rest/database"
-	"github.com/rukywe/fiber-rest/routes"
 )
 
 func welcome(c *fiber.Ctx) error {
@@ -15,22 +15,23 @@ func welcome(c *fiber.Ctx) error {
 func setupRoutes(app *fiber.App){
 
 	app.Get("/api", welcome)
-	app.Post("/api/users", routes.CreateUser)
-	app.Get("/api/users", routes.GetUsers)
-	app.Get("/api/users/:id", routes.GetUser)
-	app.Put("/api/users/:id", routes.UpdateUser)
-	app.Delete("/api/users/:id", routes.DeleteUser)
+	app.Post("/api/users", controllers.CreateUser)
+	app.Get("/api/users", controllers.GetUsers)
+	app.Get("/api/users/:id", controllers.GetUser)
+	app.Put("/api/users/:id", controllers.UpdateUser)
+	app.Delete("/api/users/:id", controllers.DeleteUser)
 
 	//Products
-	app.Post("/api/products", routes.CreateProduct)
-	app.Get("/api/products", routes.GetProducts)
-	app.Get("/api/products/:id", routes.GetProduct)
-	app.Put("/api/products/:id", routes.UpdateProduct)
-	app.Delete("/api/products/:id", routes.DeleteProduct)
+	app.Post("/api/products", controllers.CreateProduct)
+	app.Get("/api/products", controllers.GetProducts)
+	app.Get("/api/products/:id", controllers.GetProduct)
+	app.Put("/api/products/:id", controllers.UpdateProduct)
+	app.Delete("/api/products/:id", controllers.DeleteProduct)
 
 	// orders
 
-	app.Post("/api/orders", routes.CreateOrder)
+	app.Post("/api/orders", controllers.CreateOrder)
+	app.Get("/api/orders", controllers.GetOrders)
 
 
 
