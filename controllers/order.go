@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -65,4 +66,38 @@ func GetOrders(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).JSON(responseOrders)
+}
+
+func FindOrder(id int, order *models.Order) error {
+	database.Database.Db.Find(&order, "id = ?", id)
+	if order.ID == 0 {
+		return errors.New("order does not exist")
+	}
+	return nil
+}
+
+func GetOrder(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	var order models.Order
+
+	if err != nil {
+		return c.Status(400).JSON("Please ensure that :id is an integer")
+	}
+
+	if err := FindOrder(id, &order); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	var user models.User
+	var product models.Product
+
+	database.Database.Db.First(&user, order.UserRefer)
+	database.Database.Db.First(&product, order.ProductRefer)
+	responseUser := CreateResponseUser(user)
+	responseProduct := CreateResponseProduct(product)
+
+	responseOrder := CreateResponseOrder(order, responseUser, responseProduct)
+
+	return c.Status(200).JSON(responseOrder)
+
 }
