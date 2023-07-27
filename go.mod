@@ -26,6 +26,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/sixfwa/fiber-gorm v0.0.0-20211012211537-1f193f512c01
 	github.com/spf13/afero v1.9.5 // indirect
 	github.com/tdewolff/parse/v2 v2.6.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
